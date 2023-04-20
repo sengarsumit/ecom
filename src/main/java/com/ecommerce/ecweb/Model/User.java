@@ -1,23 +1,28 @@
 package com.ecommerce.ecweb.Model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
+import org.hibernate.envers.Audited;
 
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
+
+@Audited(targetAuditMode = NOT_AUDITED)
 @Entity
 @Data
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
 
-    private UUID ID;
+    private UUID ID=UUID.randomUUID();
     private String userEmail;
     private String FirstName;
     private String Lname;
+    @Pattern(regexp ="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")
     private String Password;
     private boolean isDeleted;
     private boolean isArchive;
@@ -25,6 +30,7 @@ public class User {
     private boolean isLocked;
     private int fAttempts;    //failed/invalid attempt counts
     private Date pwdUpdDate;   //passsword update date
+
 
     @ManyToMany
     private List<Role> roles;

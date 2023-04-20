@@ -24,4 +24,8 @@ public class Address {
 
 //    @ManyToOne
 //    private Customer customer;
+    @ManyToOne(optional = false)
+    private Customer add_cust;
+
+
 }
