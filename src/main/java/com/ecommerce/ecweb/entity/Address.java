@@ -1,4 +1,4 @@
-package com.ecommerce.ecweb.Model;
+package com.ecommerce.ecweb.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

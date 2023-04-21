@@ -1,9 +1,7 @@
-package com.ecommerce.ecweb.Model;
+package com.ecommerce.ecweb.entity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.PrimaryKeyJoinColumn;
 import lombok.Data;
 
 @Entity

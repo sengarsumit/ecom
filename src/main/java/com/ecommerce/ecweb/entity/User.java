@@ -1,8 +1,9 @@
-package com.ecommerce.ecweb.Model;
+package com.ecommerce.ecweb.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 
 import java.util.Date;
@@ -14,6 +15,7 @@ import static org.hibernate.envers.RelationTargetAuditMode.NOT_AUDITED;
 @Audited(targetAuditMode = NOT_AUDITED)
 @Entity
 @Data
+@NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User {
     @Id
@@ -32,7 +34,7 @@ public class User {
     private Date pwdUpdDate;   //passsword update date
 
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private List<Role> roles;
 
     @OneToOne(mappedBy = "user")

@@ -1,4 +1,4 @@
-package com.ecommerce.ecweb.Exception;
+package com.ecommerce.ecweb.exception;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
