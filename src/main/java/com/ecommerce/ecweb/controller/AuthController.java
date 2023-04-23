@@ -1,11 +1,13 @@
 package com.ecommerce.ecweb.controller;
 
+import com.ecommerce.ecweb.dto.AuthResponseDTO;
 import com.ecommerce.ecweb.dto.LoginDto;
 import com.ecommerce.ecweb.dto.RegisterDto;
 import com.ecommerce.ecweb.entity.Role;
 import com.ecommerce.ecweb.entity.User;
 import com.ecommerce.ecweb.repository.RoleRepository;
 import com.ecommerce.ecweb.repository.UserRepository;
+import com.ecommerce.ecweb.security.JWTgenerator;
 import com.nimbusds.jose.proc.SecurityContext;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,19 +32,22 @@ public class AuthController {
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
+    private JWTgenerator jwTgenerator;
     @Autowired
-    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder,JWTgenerator jwTgenerator) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwTgenerator=jwTgenerator;
     }
     @PostMapping("login")
-    public ResponseEntity<String> login(@RequestBody LoginDto loginDto)
+    public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDto loginDto)
     {
         Authentication authentication=authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUseremail(),loginDto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new ResponseEntity<>("user signed in success",HttpStatus.OK);
+        String token=jwTgenerator.generateToken(authentication);
+        return new ResponseEntity<>(new AuthResponseDTO(token),HttpStatus.OK);
     }
     @PostMapping("register")
     public ResponseEntity<String> register(@RequestBody RegisterDto registerDto)
