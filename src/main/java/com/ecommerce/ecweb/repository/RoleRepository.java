@@ -9,5 +9,5 @@ import java.util.UUID;
 public interface RoleRepository extends JpaRepository<Role, UUID> {
     Optional<Role> findByAuthority(String authority);
 
-    void deleteByAuthority(String authority);
+
 }

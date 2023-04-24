@@ -9,7 +9,7 @@ import lombok.Data;
 public class Seller extends User{
 
     private String GST;
-    private int comp_no;
+    private long comp_no;
     private String comp_name;
 
     @OneToOne

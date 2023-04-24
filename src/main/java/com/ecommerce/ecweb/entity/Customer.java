@@ -10,7 +10,7 @@ import java.util.Collection;
 @Entity
 @Data
 public class Customer extends User {
-    private int contact;
+    private long contact;
     @OneToOne
     private User user;
 //    @OneToMany

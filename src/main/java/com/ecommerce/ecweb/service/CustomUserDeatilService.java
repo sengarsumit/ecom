@@ -1,4 +1,4 @@
-package com.ecommerce.ecweb.security;
+package com.ecommerce.ecweb.service;
 
 import com.ecommerce.ecweb.entity.Role;
 import com.ecommerce.ecweb.entity.User;
