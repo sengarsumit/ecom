@@ -20,7 +20,7 @@ public class SecurityConfig {
     private JwtAuthEnrtyPoint authEnrtyPoint;
     private CustomUserDeatilService userDeatilService;
     @Autowired
-    public SecurityConfig(CustomUserDeatilService userDeatilService,JwtAuthEnrtyPoint authEnrtyPoint) {
+    public SecurityConfig(CustomUserDeatilService userDeatilServiceService,JwtAuthEnrtyPoint authEnrtyPoint) {
         this.userDeatilService = userDeatilService;
         this.authEnrtyPoint=authEnrtyPoint;
     }

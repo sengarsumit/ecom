@@ -21,12 +21,12 @@ public class CustomerController {
     private UserRepository userRepository;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@Valid @RequestBody RegisterCustomerDTO registerCustomerDto) throws MethodArgumentNotValidException {
+    public ResponseEntity<?> register(@RequestBody RegisterCustomerDTO registerCustomerDto) throws MethodArgumentNotValidException {
         return customerService.registerCustomer(registerCustomerDto);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginDto loginDto) {
+    public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
         return customerService.loginCustomer(loginDto);
     }
 

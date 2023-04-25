@@ -20,4 +20,8 @@ public class SellerController {
     private SellerServiceimpl sellerServiceimpl;
     @Autowired
     private UserRepository userRepository;
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterSellerDTO registerSellerDto) throws MethodArgumentNotValidException {
+        return sellerServiceimpl.registerSeller(registerSellerDto);
+    }
 }

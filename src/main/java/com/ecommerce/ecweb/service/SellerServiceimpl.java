@@ -39,23 +39,25 @@ public class SellerServiceimpl implements SellerService {
     @Override
     public ResponseEntity<MessageResponseDTO> registerSeller(RegisterSellerDTO registerSellerDTO) throws MethodArgumentNotValidException {
         Seller seller=new Seller();
-        Role role=new Role();
+        System.out.println(registerSellerDTO);
+        System.out.println(seller);
         seller.setUserEmail(registerSellerDTO.getEmail());
-        if(!registerSellerDTO.getPassword().equals(registerSellerDTO.getConfirmPassword()))
-        {
-            return ResponseEntity.badRequest().body(new MessageResponseDTO("password and confirm password doesn't match"));
-        }
-        seller.setPassword(passwordEncoder.encode(registerSellerDTO.getPassword()));
         seller.setGST(registerSellerDTO.getGst());
         seller.setComp_name(registerSellerDTO.getCompanyName());
         seller.setComp_no(registerSellerDTO.getCompanyContact());
         seller.setFirstName(registerSellerDTO.getFirstName());
         seller.setLname(registerSellerDTO.getLastName());
         seller.setAddress(registerSellerDTO.getCompanyAddress());
+        Role role=roleRepository.findByAuthority("SELLER").get();
         seller.setRoles(List.of(role));
+        if(!registerSellerDTO.getPassword().equals(registerSellerDTO.getConfirmPassword()))
+        {
+            return ResponseEntity.badRequest().body(new MessageResponseDTO("password and confirm password doesn't match"));
+        }
+        seller.setPassword(passwordEncoder.encode(registerSellerDTO.getConfirmPassword()));
         sellerRepository.save(seller);
         String token=jwTgenerator.generateToken(registerSellerDTO.getEmail());
-        emailServices.sendMail(registerSellerDTO.getEmail(), UUID.randomUUID().toString());
+        emailServices.sendMail(registerSellerDTO.getEmail(), token);
         return new ResponseEntity<>(new MessageResponseDTO("Seller registered"), HttpStatus.OK);
 
 

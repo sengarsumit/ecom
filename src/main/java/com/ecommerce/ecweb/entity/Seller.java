@@ -1,5 +1,6 @@
 package com.ecommerce.ecweb.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
@@ -12,9 +13,7 @@ public class Seller extends User{
     private long comp_no;
     private String comp_name;
 
-    @OneToOne
-    private User user;
 
-    @OneToOne(mappedBy = "seller")
+    @OneToOne(mappedBy = "seller",cascade = CascadeType.ALL)
     private Address address;
 }

@@ -36,11 +36,11 @@ public class User {
 
     @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private List<Role> roles;
-
-    @OneToOne(mappedBy = "user")
-    private Seller seller;
-    @OneToOne(mappedBy = "user")
-    private Customer customer;
+//
+//    @OneToOne(mappedBy = "user")
+//    private Seller seller;
+//    @OneToOne(mappedBy = "user")
+//    private Customer customer;
 
 
 }

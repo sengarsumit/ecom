@@ -10,11 +10,11 @@ public class RegisterSellerDTO {
     private String email;
     @Pattern(regexp ="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$",message = "Password invalid")
     private String password;
+    private String confirmPassword;
     private String gst;
     private String companyName;
     private Address companyAddress;
     private long companyContact;
-    private String confirmPassword;
     private String firstName;
     private String lastName;
 }

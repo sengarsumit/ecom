@@ -12,7 +12,7 @@ import java.util.UUID;
 @Data
 public class Address {
     @Id
-    private UUID addId;
+    private UUID addId=UUID.randomUUID();
     private String city;
     private String state;
     private String country;
