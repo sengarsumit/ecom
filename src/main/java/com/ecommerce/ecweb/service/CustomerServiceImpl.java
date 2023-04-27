@@ -44,8 +44,7 @@ public class CustomerServiceImpl implements CustomerService{
     @Override
     public ResponseEntity<MessageResponseDTO> registerCustomer(RegisterCustomerDTO registerCustomerDTO) throws MethodArgumentNotValidException {
         Customer customer=new Customer();
-        System.out.println(registerCustomerDTO);
-        System.out.println(customer);
+
         customer.setFirstName(registerCustomerDTO.getFirstName());
         customer.setLname(registerCustomerDTO.getLastName());
         customer.setUserEmail(registerCustomerDTO.getEmail());
@@ -78,14 +77,13 @@ public class CustomerServiceImpl implements CustomerService{
     {
         boolean isValid=jwTgenerator.validateToken(userToken);
         String email=jwTgenerator.getUseremailfromJWT(userToken);
-        System.out.println(isValid);
-        System.out.println(email);
         if(!isValid)
         {
             return new ResponseEntity<>(new MessageResponseDTO("Token is wrong or exxpired"),HttpStatus.INTERNAL_SERVER_ERROR);
         }
         User user=userRepository.findByUserEmail(email).get();
         //set active
+        user.setActive(true);
         userRepository.save(user);
         return ResponseEntity.ok(new MessageResponseDTO("Account is active"));
     }

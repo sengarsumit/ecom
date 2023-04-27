@@ -8,6 +8,7 @@ import com.ecommerce.ecweb.entity.User;
 import com.ecommerce.ecweb.repository.RoleRepository;
 import com.ecommerce.ecweb.repository.UserRepository;
 import com.ecommerce.ecweb.security.JWTgenerator;
+import com.ecommerce.ecweb.service.CustomUserDeatilService;
 import com.nimbusds.jose.proc.SecurityContext;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ import java.util.Collections;
 
 @RestController
 @RequestMapping("/api/auth")
-public class AuthController implements UserDeta {
+public class AuthController {
     private AuthenticationManager authenticationManager;
     private UserRepository userRepository;
     private RoleRepository roleRepository;
@@ -41,6 +42,8 @@ public class AuthController implements UserDeta {
         this.passwordEncoder = passwordEncoder;
         this.jwTgenerator=jwTgenerator;
     }
+    @Autowired
+    private CustomUserDeatilService customUserDeatilService;
     @PostMapping("login")
     public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDto loginDto)
     {
@@ -49,21 +52,21 @@ public class AuthController implements UserDeta {
         String token=jwTgenerator.generateToken(authentication);
         return new ResponseEntity<>(new AuthResponseDTO(token),HttpStatus.OK);
     }
-    @PostMapping("register")
-    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto)
-    {
-        if(userRepository.existsByUserEmail(registerDto.getUseremail()))
-        {
-            return new ResponseEntity<>("Email is already registered", HttpStatus.BAD_REQUEST);
-
-        }
-        User user = new User();
-        user.setUserEmail(registerDto.getUseremail());
-        user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
-        Role roles =roleRepository.findByAuthority("USER").get();
-        user.setRoles(Collections.singletonList(roles));
-        userRepository.save(user);
-        return new ResponseEntity<>("user registered succes",HttpStatus.OK);
-    }
+//    @PostMapping("register")
+//    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto)
+//    {
+//        if(userRepository.existsByUserEmail(registerDto.getUseremail()))
+//        {
+//            return new ResponseEntity<>("Email is already registered", HttpStatus.BAD_REQUEST);
+//
+//        }
+//        User user = new User();
+//        user.setUserEmail(registerDto.getUseremail());
+//        user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
+//        Role roles =roleRepository.findByAuthority("USER").get();
+//        user.setRoles(Collections.singletonList(roles));
+//        userRepository.save(user);
+//        return new ResponseEntity<>("user registered succes",HttpStatus.OK);
+//    }
 
 }

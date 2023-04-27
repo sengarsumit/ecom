@@ -28,6 +28,7 @@ public class User {
     private String Password;
     private boolean isDeleted;
     private boolean isArchive;
+    private boolean isActive;
     private boolean isExpired;
     private boolean isLocked;
     private int fAttempts;    //failed/invalid attempt counts

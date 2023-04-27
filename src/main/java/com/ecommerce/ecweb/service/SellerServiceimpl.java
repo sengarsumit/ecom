@@ -4,6 +4,7 @@ import com.ecommerce.ecweb.dto.MessageResponseDTO;
 import com.ecommerce.ecweb.dto.RegisterSellerDTO;
 import com.ecommerce.ecweb.entity.Role;
 import com.ecommerce.ecweb.entity.Seller;
+import com.ecommerce.ecweb.entity.User;
 import com.ecommerce.ecweb.repository.CustomerRepository;
 import com.ecommerce.ecweb.repository.RoleRepository;
 import com.ecommerce.ecweb.repository.SellerRepository;
@@ -50,6 +51,7 @@ public class SellerServiceimpl implements SellerService {
         seller.setAddress(registerSellerDTO.getCompanyAddress());
         Role role=roleRepository.findByAuthority("SELLER").get();
         seller.setRoles(List.of(role));
+        System.out.println(seller);
         if(!registerSellerDTO.getPassword().equals(registerSellerDTO.getConfirmPassword()))
         {
             return ResponseEntity.badRequest().body(new MessageResponseDTO("password and confirm password doesn't match"));
@@ -61,5 +63,18 @@ public class SellerServiceimpl implements SellerService {
         return new ResponseEntity<>(new MessageResponseDTO("Seller registered"), HttpStatus.OK);
 
 
+    }
+    public ResponseEntity<?> activateSeller(String userToken)
+    {
+        boolean isValid=jwTgenerator.validateToken(userToken);
+        String email=jwTgenerator.getUseremailfromJWT(userToken);
+        if(!isValid)
+        {
+            return new ResponseEntity<>(new MessageResponseDTO("Token is wrong or exxpired"),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        User user=userRepository.findByUserEmail(email).get();
+        //set active
+        userRepository.save(user);
+        return ResponseEntity.ok(new MessageResponseDTO("Account is active"));
     }
 }
